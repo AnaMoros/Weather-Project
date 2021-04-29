@@ -9,8 +9,6 @@ let degreeButton = document.querySelector("#degree-button");
 degreeButton.addEventListener("click", convertTemp); //change between C and F
 
 //functions to run when page re/loads
-updateTime();
-updateDate();
 searchCity("London");
 // all functions
 
@@ -45,6 +43,8 @@ function searchCity(city) {
 } // sends the city the user searches for to Weather API
 
 function updateLocationInfo(response) {
+  updateTime(response.data.dt);
+  updateDate(response.data.dt);
   updateTemp(response.data.main.temp);
   updateWeatherDescription(response.data.weather[0].description);
   updateCity(response.data.name);
@@ -172,8 +172,8 @@ function swapToFButton() {
   degree.innerHTML = "°C";
 } // changes the text of the button to F
 
-function updateTime() {
-  let currentDate = new Date();
+function updateTime(unixDate) {
+  let currentDate = new Date(unixDate * 1000);
   let hour = currentDate.getHours();
   if (hour < 10) {
     hour = `0${hour}`;
@@ -187,8 +187,8 @@ function updateTime() {
   theTime.innerHTML = `${time}`;
 } // updates to the current time
 
-function updateDate() {
-  let currentDate = new Date();
+function updateDate(unixDate) {
+  let currentDate = new Date(unixDate);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let day = days[currentDate.getDay()].toUpperCase();
   let months = [
