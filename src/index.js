@@ -11,7 +11,7 @@ degreeButton.addEventListener("click", convertTemp); //change between C and F
 //functions to run when page re/loads
 updateTime();
 updateDate();
-searchCity(London);
+searchCity("London");
 // all functions
 
 function findLocation(event) {

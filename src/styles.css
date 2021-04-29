@@ -87,7 +87,9 @@ footer {
   margin: 0 auto;
   max-width: 50%;
 }
-
+.weather-description {
+  text-transform: capitalize;
+}
 .today-temp {
   display: inline;
   line-height: 5rem;
