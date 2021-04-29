@@ -1,0 +1,120 @@
+body {
+  background: #2b87a659;
+  max-width: 134vmin;
+  margin: 0 auto;
+}
+header,
+section {
+  margin-top: 4%;
+}
+section {
+  text-align: center;
+}
+input {
+  background: transparent;
+  border: none;
+  padding: 9px;
+  width: 70%;
+}
+a,
+a:hover {
+  color: inherit;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  padding: 5%;
+}
+ul li::before {
+  content: "\200B";
+}
+footer {
+  margin-top: 6%;
+  margin-bottom: 2%;
+  text-align: right;
+}
+.search-bar,
+.location-button,
+.today,
+.today-info-card,
+.forecast {
+  background: rgba(255, 255, 255, 0.911);
+  border-color: transparent !important;
+}
+
+.search-bar {
+  border-radius: 25px;
+  margin: 0 auto;
+  width: 96%;
+  display: block;
+}
+.search-bar:hover {
+  border-color: #a0a0a0 #b9b9b9 #b9b9b9;
+}
+.search-button {
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px;
+  padding: 9px;
+  float: right;
+}
+.location-button {
+  border-radius: 50%;
+  border: 1px;
+  padding: 9px;
+  margin-left: 1%;
+  padding: 9px 14px;
+}
+.time-and-date {
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  padding: 5% 5% 0;
+}
+.the-time {
+  text-align: left;
+}
+.the-date {
+  text-align: right;
+}
+.today-weather {
+  padding: 1rem 0;
+}
+.today-weather-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 50%;
+}
+
+.today-temp {
+  display: inline;
+  line-height: 5rem;
+}
+.today-number-temp,
+.degree {
+  font-size: 5rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+.degree-button {
+  border-radius: 50%;
+  background-color: #2b87a610;
+  font-size: 1.2rem;
+  vertical-align: top;
+  width: auto;
+}
+.degree-button:hover {
+  color: #fff;
+  background-color: #2b87a659;
+}
+
+.today-info {
+  height: 100%;
+  text-align: left;
+}
+.today-info-width {
+  padding: 0 0 0 2rem;
+  line-height: 3rem;
+}

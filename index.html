@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://kit.fontawesome.com/15ffda7803.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <div class="container main-display">
+      <!-- Search bar and search button -->
+      <header class="d-flex">
+        <div class="flex-grow-1 search-bar">
+          <form id="search-form">
+            <input
+              type="search"
+              name="city-search"
+              id="city-input"
+              class="city-search"
+              placeholder="Type city..."
+              autofocus="on"
+              autocomplete="off"
+            />
+            <button type="submit" class="btn search-button" id="search-button">
+              <a href="#" role="button">
+                <i class="fas fa-search"></i>
+              </a>
+            </button>
+          </form>
+        </div>
+        <button type="click" class="btn location-button" id="location-button">
+          <a href="#" role="button"> <i class="fas fa-map-marker-alt"></i></a>
+        </button>
+      </header>
+      <!-- The two main weather cards -->
+      <section>
+        <div class="row">
+          <!-- The first main weather card - Time // Weather Image // Temperature -->
+          <div class="col-sm-6">
+            <div
+              class="card d-flex flex-column justify-content-between h-100 today"
+              id="today"
+            >
+              <div class="row time-and-date" id="time-and-date">
+                <div class="col the-time" id="the-time">12:00</div>
+                <div class="col the-date" id="the-date">SUN 24 OCT</div>
+              </div>
+              <div class="row today-weather">
+                <img
+                  src="src/media/svg/003-cloud.svg"
+                  alt=""
+                  class="today-weather-img"
+                  id="today-weather-img"
+                />
+              </div>
+              <div class="row">
+                <div
+                  class="col-12 weather-description"
+                  id="weather-description"
+                >
+                  Partly Cloudy
+                </div>
+              </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="today-temp-table">
+                      <div class="row today-temp">
+                        <span class="today-number-temp" id="today-number-temp"
+                          >13</span
+                        ><span class="degree" id="degree">°C</span
+                        ><a
+                          type="button"
+                          class="btn degree-button"
+                          id="degree-button"
+                          >°F</a
+                        >
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- The second main weather card - Location // Other Information -->
+          <div class="col-sm-6">
+            <div class="card h-100 today-info-card">
+              <table class="today-info" id="today-info">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="city today-info-width" id="city">
+                      LONDON
+                    </th>
+                    <td class="country today-info-width" id="country">UK</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="feels today-info-width" id="feels">
+                      Feels like
+                    </th>
+                    <td class="feels-temo today-info-width" id="feels-temp">
+                      15
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="high today-info-width" id="high">
+                      High
+                    </th>
+                    <td class="high-temp today-info-width" id="high-temp">
+                      23
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="low today-info-width" id="low">
+                      Low
+                    </th>
+                    <td class="low-temp today-info-width" id="low-temp">7</td>
+                  </tr>
+                  <tr>
+                    <th
+                      scope="row"
+                      class="precipitation today-info-width"
+                      id="precipitation"
+                    >
+                      Precipitation
+                    </th>
+                    <td
+                      class="precipitation-percent today-info-width"
+                      id="precipitation-percent"
+                    >
+                      50%
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="wind today-info-width" id="wind">
+                      Wind
+                    </th>
+                    <td class="wind-speed today-info-width" id="wind-speed">
+                      5 mph
+                    </td>
+                  </tr>
+                  <tr>
+                    <th
+                      scope="row"
+                      class="humidity today-info-width"
+                      id="humidity"
+                    >
+                      Humidity
+                    </th>
+                    <td
+                      class="humidity-percent today-info-width"
+                      id="humidity-percent"
+                    >
+                      50%
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="uv today-info-width" id="uv">
+                      UV Index
+                    </th>
+                    <td class="uv-index today-info-width" id="uv-index">5</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- The 6 day forecast -->
+      <section class="forecast border rounded-1">
+        <div class="row" id="forecast">
+          <div class="col-6 col-sm-2 day1" id="day1">
+            <ul>
+              <li class="day1-day" id="day1-day">WED</li>
+              <li class="day1-weather" id="day1-weather">
+                <img
+                  src="src/media/svg/006-cloudy.svg"
+                  alt=""
+                  class="day1-weather-img"
+                  id="day1-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day1-temp" id="day1-temp">
+                <span class="day1-low-temp" id="day1-low-temp">12</span>°
+                <span class="day1-high-temp" id="day1-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>
+          <div class="col-6 col-sm-2 day2" id="day2">
+            <ul>
+              <li class="day2-day" id="day2-day">WED</li>
+              <li class="day2-weather" id="day2-weather">
+                <img
+                  src="src/media/svg/027-rain.svg"
+                  alt=""
+                  class="day2-weather-img"
+                  id="day2-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day2-temp" id="day2-temp">
+                <span class="day2-low-temp" id="day2-low-temp">12</span>°
+                <span class="day2-high-temp" id="day2-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>
+          <div class="col-6 col-sm-2 day3" id="day3">
+            <ul>
+              <li class="day3-day" id="day3-day">WED</li>
+              <li class="day3-weather" id="day3-weather">
+                <img
+                  src="src/media/svg/036-sun.svg"
+                  alt=""
+                  class="day3-weather-img"
+                  id="day3-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day3-temp" id="day3-temp">
+                <span class="day3-low-temp" id="day3-low-temp">12</span>°
+                <span class="day3-high-temp" id="day3-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>
+          <div class="col-6 col-sm-2 day4" id="day4">
+            <ul>
+              <li class="day4-day" id="day4-day">WED</li>
+              <li class="day4-weather" id="day4-weather">
+                <img
+                  src="src/media/svg/033-snowy.svg"
+                  alt=""
+                  class="day4-weather-img"
+                  id="day4-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day4-temp" id="day4-temp">
+                <span class="day4-low-temp" id="day4-low-temp">12</span>°
+                <span class="day4-high-temp" id="day4-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>
+          <div class="col-6 col-sm-2 day5" id="day5">
+            <ul>
+              <li class="day5-day" id="day5-day">WED</li>
+              <li class="day5-weather" id="day5-weather">
+                <img
+                  src="src/media/svg/035-storm.svg"
+                  alt=""
+                  class="day5-weather-img"
+                  id="day5-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day5-temp" id="day5-temp">
+                <span class="day5-low-temp" id="day5-low-temp">12</span>°
+                <span class="day5-high-temp" id="day5-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>
+          <div class="col-6 col-sm-2 day6" id="day6">
+            <ul>
+              <li class="day6-day" id="day6-day">WED</li>
+              <li class="day6-weather" id="day6-weather">
+                <img
+                  src="src/media/svg/016-haze.svg"
+                  alt=""
+                  class="day6-weather-img"
+                  id="day6-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day6-temp" id="day6-temp">
+                <span class="day6-low-temp" id="day6-low-temp">12</span>°
+                <span class="day6-high-temp" id="day6-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer>
+      Coded by Ana Moros<br />
+      <div>
+        <div>
+          Icons made by
+          <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware"
+            >Good Ware</a
+          >
+          from
+          <a href="https://www.flaticon.com/" title="Flaticon"
+            >www.flaticon.com</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script src="src/index.js"></script>
+</html>
