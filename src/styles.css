@@ -80,7 +80,7 @@ footer {
   text-align: right;
 }
 .today-weather {
-  padding: 1rem 0;
+  padding: 1.5rem 0 0;
 }
 .today-weather-img {
   display: block;
