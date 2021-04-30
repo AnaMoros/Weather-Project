@@ -55,8 +55,123 @@ function updateLocationInfo(response) {
   //updateChanceOfRain(); -- work in progress
   updateWindSpeed(response.data.wind.speed);
   updateHumidity(response.data.main.humidity);
+  updateIcon(response.data.weather[0].id);
   //updateUVIndex(); --CURRENTLY NO UV DATA BEING RECIEVED --!!
 } // all functions to run and update the page
+
+function updateIcon(imgID) {
+  let imgName;
+  switch (imgID) {
+    case 200:
+    case 201:
+    case 202:
+    case 230:
+    case 231:
+    case 232:
+      imgName = "day-thunderstorm";
+      break;
+    case 210:
+    case 211:
+    case 212:
+    case 221:
+      imgName = "day-lightning";
+      break;
+    case 300:
+    case 301:
+    case 321:
+    case 500:
+      imgName = "day-sprinkle";
+      break;
+    case 302:
+    case 310:
+    case 311:
+    case 312:
+    case 313:
+    case 314:
+    case 501:
+    case 502:
+    case 503:
+    case 504:
+      imgName = "day-rain";
+      break;
+    case 511:
+    case 611:
+    case 612:
+    case 615:
+    case 616:
+    case 620:
+      imgName = "day-rain-mix";
+      break;
+    case 520:
+    case 521:
+    case 522:
+    case 701:
+      imgName = "day-showers";
+      break;
+
+    case 531:
+      imgName = "day-storm-showers";
+      break;
+    case 600:
+    case 602:
+    case 621:
+    case 622:
+      imgName = "day-snow";
+      break;
+
+    case 601:
+      imgName = "day-sleet";
+      break;
+    case 711:
+      imgName = "smoke";
+      break;
+    case 721:
+      imgName = "day-haze";
+      break;
+    case 731:
+    case 761:
+    case 762:
+      imgName = "dust";
+      break;
+
+    case 741:
+      imgName = "day-fog";
+      break;
+
+    case 781:
+    case 900:
+      imgName = "tornado";
+      break;
+
+    case 800:
+      imgName = "day-sunny";
+      break;
+    case 801:
+    case 802:
+    case 803:
+      imgName = "day-cloudy-gusts";
+      break;
+    case 804:
+      imgName = "day-sunny-overcast";
+      break;
+    case 902:
+      imgName = "hurricane";
+      break;
+    case 903:
+      imgName = "snowflake-cold";
+      break;
+    case 904:
+      imgName = "hot";
+      break;
+    case 906:
+      imgName = "day-hail";
+      break;
+    case 957:
+      imgName = "strong-wind";
+  }
+  let currentIcon = document.querySelector("#today-weather-img");
+  currentIcon.setAttribute("src", `src/svg/wi-${imgName}.svg`);
+}
 
 function updateTemp(temp) {
   let currentTemp = document.querySelector("#today-number-temp");
