@@ -8,6 +8,8 @@ currentLocation.addEventListener("click", findLocation); // current location
 let degreeButton = document.querySelector("#degree-button");
 degreeButton.addEventListener("click", convertTemp); //change between C and F
 
+let weatherCelsiusTemp = null;
+
 //functions to run when page re/loads
 searchCity("London");
 // all functions
@@ -43,6 +45,7 @@ function searchCity(city) {
 } // sends the city the user searches for to Weather API
 
 function updateLocationInfo(response) {
+  weatherCelsiusTemp = response.data.main;
   updateTime(response.data.dt);
   updateDate(response.data.dt);
   updateTemp(response.data.main.temp);
@@ -266,11 +269,35 @@ function convertTemp() {
 function convertToF() {
   let todayTemp = document.querySelector("#today-number-temp");
   todayTemp.innerHTML = Math.round((todayTemp.innerHTML * 9) / 5 + 32);
+
+  let feelsTemp = document.querySelector("#feels-temp");
+  let feelsTempRound = Math.round((weatherCelsiusTemp.feels_like * 9) / 5 + 32);
+  feelsTemp.innerHTML = `${feelsTempRound}°`;
+
+  let highTemp = document.querySelector("#high-temp");
+  let highTempRound = Math.round((weatherCelsiusTemp.temp_max * 9) / 5 + 32);
+  highTemp.innerHTML = `${highTempRound}°`;
+
+  let lowTemp = document.querySelector("#low-temp");
+  let lowTempRound = Math.round((weatherCelsiusTemp.temp_min * 9) / 5 + 32);
+  lowTemp.innerHTML = `${lowTempRound}°`;
 } // formula to convert celsius to farenheit and change the text
 
 function convertToC() {
   let todayTemp = document.querySelector("#today-number-temp");
-  todayTemp.innerHTML = Math.round((todayTemp.innerHTML - 32) * (5 / 9));
+  todayTemp.innerHTML = Math.round(weatherCelsiusTemp.temp);
+
+  let feelsTemp = document.querySelector("#feels-temp");
+  let feelsTempRound = Math.round(weatherCelsiusTemp.feels_like);
+  feelsTemp.innerHTML = `${feelsTempRound}°`;
+
+  let highTemp = document.querySelector("#high-temp");
+  let highTempRound = Math.round(weatherCelsiusTemp.temp_max);
+  highTemp.innerHTML = `${highTempRound}°`;
+
+  let lowTemp = document.querySelector("#low-temp");
+  let lowTempRound = Math.round(weatherCelsiusTemp.temp_min);
+  lowTemp.innerHTML = `${lowTempRound}°`;
 } // formula to convert farenheit to celsius to and change the text
 
 function swapToCButton() {
