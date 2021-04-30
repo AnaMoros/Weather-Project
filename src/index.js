@@ -8,7 +8,7 @@ currentLocation.addEventListener("click", findLocation); // current location
 let degreeButton = document.querySelector("#degree-button");
 degreeButton.addEventListener("click", convertTemp); //change between C and F
 
-let weatherCelsiusTemp = null;
+let weatherData = null;
 
 //functions to run when page re/loads
 searchCity("London");
@@ -45,7 +45,7 @@ function searchCity(city) {
 } // sends the city the user searches for to Weather API
 
 function updateLocationInfo(response) {
-  weatherCelsiusTemp = response.data.main;
+  weatherData = response.data;
   updateTime(response.data.dt);
   updateDate(response.data.dt);
   updateTemp(response.data.main.temp);
@@ -104,7 +104,8 @@ function updateLowTemp(lowTemp) {
 
 function updateWindSpeed(windSpeedData) {
   let windSpeed = document.querySelector("#wind-speed");
-  windSpeed.innerHTML = `${windSpeedData} kph`;
+  windSpeedRound = Math.round(windSpeedData * 100) / 100;
+  windSpeed.innerHTML = `${windSpeedRound} kmh`;
 } // updates the current wind speed
 
 function updateHumidity(humidityData) {
@@ -144,46 +145,54 @@ function updateUVIndex(uvi) {
 function convertTemp() {
   let degreeButton = document.querySelector("#degree-button");
   if (degreeButton.innerHTML === "°F") {
-    convertToF();
+    convertToImperial();
     swapToCButton();
   } else {
-    convertToC();
+    convertToMetric();
     swapToFButton();
   }
 } // ChangeS the temperature buttons when pressed
 
-function convertToF() {
+function convertToImperial() {
   let todayTemp = document.querySelector("#today-number-temp");
-  todayTemp.innerHTML = Math.round((todayTemp.innerHTML * 9) / 5 + 32);
+  todayTemp.innerHTML = Math.round((weatherData.main.temp * 9) / 5 + 32);
 
   let feelsTemp = document.querySelector("#feels-temp");
-  let feelsTempRound = Math.round((weatherCelsiusTemp.feels_like * 9) / 5 + 32);
+  let feelsTempRound = Math.round((weatherData.main.feels_like * 9) / 5 + 32);
   feelsTemp.innerHTML = `${feelsTempRound}°`;
 
   let highTemp = document.querySelector("#high-temp");
-  let highTempRound = Math.round((weatherCelsiusTemp.temp_max * 9) / 5 + 32);
+  let highTempRound = Math.round((weatherData.main.temp_max * 9) / 5 + 32);
   highTemp.innerHTML = `${highTempRound}°`;
 
   let lowTemp = document.querySelector("#low-temp");
-  let lowTempRound = Math.round((weatherCelsiusTemp.temp_min * 9) / 5 + 32);
+  let lowTempRound = Math.round((weatherData.main.temp_min * 9) / 5 + 32);
   lowTemp.innerHTML = `${lowTempRound}°`;
+
+  let windSpeed = document.querySelector("#wind-speed");
+  windSpeedRound = Math.round((weatherData.wind.speed / 1.609344) * 100) / 100;
+  windSpeed.innerHTML = `${windSpeedRound} mph`;
 } // formula to convert celsius to farenheit and change the text
 
-function convertToC() {
+function convertToMetric() {
   let todayTemp = document.querySelector("#today-number-temp");
-  todayTemp.innerHTML = Math.round(weatherCelsiusTemp.temp);
+  todayTemp.innerHTML = Math.round(weatherData.main.temp);
 
   let feelsTemp = document.querySelector("#feels-temp");
-  let feelsTempRound = Math.round(weatherCelsiusTemp.feels_like);
+  let feelsTempRound = Math.round(weatherData.main.feels_like);
   feelsTemp.innerHTML = `${feelsTempRound}°`;
 
   let highTemp = document.querySelector("#high-temp");
-  let highTempRound = Math.round(weatherCelsiusTemp.temp_max);
+  let highTempRound = Math.round(weatherData.main.temp_max);
   highTemp.innerHTML = `${highTempRound}°`;
 
   let lowTemp = document.querySelector("#low-temp");
-  let lowTempRound = Math.round(weatherCelsiusTemp.temp_min);
+  let lowTempRound = Math.round(weatherData.main.temp_min);
   lowTemp.innerHTML = `${lowTempRound}°`;
+
+  let windSpeed = document.querySelector("#wind-speed");
+  windSpeedRound = Math.round(weatherData.wind.speed * 100) / 100;
+  windSpeed.innerHTML = `${windSpeedRound} kph`;
 } // formula to convert farenheit to celsius to and change the text
 
 function swapToCButton() {
