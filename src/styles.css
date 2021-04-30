@@ -13,7 +13,7 @@ section {
 input {
   background: transparent;
   border: none;
-  padding: 9px;
+  padding: 9px 0px 9px 16px;
   width: 70%;
 }
 a,
@@ -58,6 +58,7 @@ footer {
   border-radius: 50%;
   background-color: transparent;
   border: 1px;
+  margin-right: 8px;
   padding: 9px;
   float: right;
 }
