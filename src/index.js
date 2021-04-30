@@ -62,6 +62,37 @@ function updateLocationInfo(response) {
   //updateUVIndex(); --CURRENTLY NO UV DATA BEING RECIEVED --!!
 } // all functions to run and update the page
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  let days = ["THU", "FRI", "SAT", "SUN", "MON", "TUE"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-6 col-sm-2 day1" id="day1">
+            <ul>
+              <li class="day1-day" id="day1-day">${day}</li>
+              <li class="day1-weather" id="day1-weather">
+                <img
+                  src="src/svg/wi-day-cloudy-high.svg"
+                  alt=""
+                  class="day1-weather-img"
+                  id="day1-weather-img"
+                  width="50px"
+                />
+              </li>
+              <li class="day1-temp" id="day1-temp">
+                <span class="day1-low-temp" id="day1-low-temp">12</span>°
+                <span class="day1-high-temp" id="day1-high-temp">16</span>°
+              </li>
+            </ul>
+          </div>`;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+displayForecast();
+
 function updateTemp(temp) {
   let currentTemp = document.querySelector("#today-number-temp");
   currentTemp.innerHTML = Math.round(temp);
