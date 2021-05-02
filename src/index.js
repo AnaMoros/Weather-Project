@@ -67,9 +67,7 @@ function displayForecast() {
   let forecastHTML = `<div class="row">`;
   let days = ["THU", "FRI", "SAT", "SUN", "MON", "TUE"];
   days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `<div class="col-6 col-sm-2 day1" id="day1">
+    forecastHTML += `<div class="col-6 col-sm-2 day1" id="day1">
             <ul>
               <li class="day1-day" id="day1-day">${day}</li>
               <li class="day1-weather" id="day1-weather">
@@ -88,7 +86,7 @@ function displayForecast() {
             </ul>
           </div>`;
   });
-  forecastHTML = forecastHTML + `</div>`;
+  forecastHTML += `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
 displayForecast();
