@@ -21,12 +21,12 @@ function findLocation(event) {
 } // find position of user with locator button
 
 function showPosition(position) {
-  const OPENWEATHERAPIKEY;
-  let apiEndpoint = `https://api.openweathermap.org/data/2.5/weather?`;
+  const apiKey = "139a278dab2d6efb890bf5a9eddefa09";
+  const apiEndpoint = `https://api.openweathermap.org/data/2.5/weather?`;
   let unit = `metric`;
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
-  let apiUrl = `${apiEndpoint}lat=${lat}&lon=${lon}&units=${unit}&appid=${OPENWEATHERAPIKEY}`;
+  let apiUrl = `${apiEndpoint}lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
   axios.get(apiUrl).then(updateLocationInfo);
 } // sends user location to Weather API
 
