@@ -59,14 +59,16 @@ function updateLocationInfo(data) {
   weatherData = data;
   updateTime(data.current.dt);
   updateDate(data.current.dt);
-  updateTemp(data.current.temp);
+  updateTemp(
+    data.current.temp,
+    data.current.feels_like,
+    data.daily[0].temp.max,
+    data.daily[0].temp.min
+  );
   updateWeatherDescription(data.current.weather[0].description);
   //updateCity(data.name);
   //updateCountry(data.sys.country);
-  updateFeelsTemp(data.current.feels_like);
-  updateHighTemp(data.daily[0].temp.max);
-  updateLowTemp(data.daily[0].temp.min);
-  //updateChanceOfRain(); -- work in progress
+  updateChanceOfRain(data.daily[0].pop);
   updateWindSpeed(data.current.wind_speed);
   updateHumidity(data.current.humidity);
   updateIcon(data.current.weather[0].id);
@@ -115,12 +117,28 @@ function displayForecast(data) {
   forecastHTML += `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
-//displayForecast();
 
-function updateTemp(temp) {
+function updateTemp(temp, feels, max, min) {
   let currentTemp = document.querySelector("#today-number-temp");
   currentTemp.innerHTML = Math.round(temp);
+
+  let feelsTemp = document.querySelector("#feels-temp");
+  let feelsRound = Math.round(feels);
+  feelsTemp.innerHTML = `${feelsRound}°`;
+
+  let maxTemp = document.querySelector("#high-temp");
+  let maxRound = Math.round(max);
+  maxTemp.innerHTML = `${maxRound}°`;
+
+  let minTemp = document.querySelector("#low-temp");
+  let minRound = Math.round(min);
+  minTemp.innerHTML = `${minRound}°`;
 } // updates the temperature of the current city
+
+function updateWeatherDescription(description) {
+  let weatherDescription = document.querySelector("#weather-description");
+  weatherDescription.innerHTML = description;
+} // updates the current weather description
 
 function updateCity(cityName) {
   let city = document.querySelector("#city");
@@ -132,30 +150,10 @@ function updateCountry(countryCode) {
   country.innerHTML = countryCode.toUpperCase();
 } // updates the country
 
-function updateFeelsTemp(feelsTemp) {
-  let temp = document.querySelector("#feels-temp");
-  let feelsTempRound = Math.round(feelsTemp);
-  temp.innerHTML = `${feelsTempRound}°`;
-} // updates the feels like temp
-
-function updateWeatherDescription(description) {
-  let weatherDescription = document.querySelector("#weather-description");
-  weatherDescription.innerHTML = description;
-} // updates the current weather description
-
-function updateHighTemp(highTemp) {
-  let temp = document.querySelector("#high-temp");
-  let highTempRound = Math.round(highTemp);
-  temp.innerHTML = `${highTempRound}°`;
-} // updates the highest temperature of the day
-
-function updateLowTemp(lowTemp) {
-  let temp = document.querySelector("#low-temp");
-  let lowTempRound = Math.round(lowTemp);
-  temp.innerHTML = `${lowTempRound}°`;
-} // updates the lowest temperature of the day
-
-//function updateChanceOfRain()
+function updateChanceOfRain(chance) {
+  let rain = document.querySelector("#precipitation-percent");
+  rain.innerHTML = `${chance * 100}%`;
+}
 
 function updateWindSpeed(windSpeedData) {
   let windSpeed = document.querySelector("#wind-speed");
