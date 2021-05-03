@@ -90,23 +90,22 @@ function displayForecast(data) {
   let forecastHTML = `<div class="row">`;
   dailyData.forEach(function (dailyData, index) {
     if (index > 0 && index < 7) {
-      forecastHTML += `<div class="col-6 col-sm-2 day1" id="day1">
+      forecastHTML += `<div class="col-6 col-sm-2">
             <ul>
-              <li class="day1-day" id="day1-day">${formatDay(dailyData.dt)}</li>
-              <li class="day1-weather" id="day1-weather">
+              <li class="forecast-day">${formatDay(dailyData.dt)}</li>
+              <li class="forecast-weather">
                 <img
-                  src="src/svg/wi-day-cloudy-high.svg"
+                  src="src/svg/wi-${findIcon(dailyData.weather[0].id)}.svg"
                   alt=""
-                  class="day1-weather-img"
-                  id="day1-weather-img"
+                  class="forecast-weather-img"
                   width="50px"
                 />
               </li>
-              <li class="day1-temp" id="day1-temp">
-                <span class="day1-low-temp" id="day1-low-temp">${Math.round(
+              <li class="forecast-temp">
+                <span class="forecast-low-temp">${Math.round(
                   dailyData.temp.min
                 )}</span>°
-                <span class="day1-high-temp" id="day1-high-temp">${Math.round(
+                <span class="day1-high-temp">${Math.round(
                   dailyData.temp.max
                 )}</span>°
               </li>
