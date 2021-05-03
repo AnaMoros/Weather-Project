@@ -21,6 +21,7 @@ function findLocation(event) {
 } // find position of user with locator button
 
 function showPosition(position) {
+  const OPENWEATHERAPIKEY;
   let apiEndpoint = `https://api.openweathermap.org/data/2.5/weather?`;
   let unit = `metric`;
   let lat = position.coords.latitude;
