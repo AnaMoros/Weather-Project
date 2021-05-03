@@ -170,32 +170,18 @@ function updateHumidity(humidityData) {
 
 function updateUVIndex(uvi) {
   let uvIndex = document.querySelector("#uv-index");
-  let answer;
-  switch (uvi) {
-    case 0:
-    case 1:
-    case 2:
-      answer = "Low";
-      break;
-    case 3:
-    case 4:
-    case 5:
-      answer = "Moderate";
-      break;
-    case 6:
-    case 7:
-      answer = "High";
-      break;
-    case 8:
-    case 9:
-    case 10:
-      answer = "Very High";
-      break;
-    default:
-      answer = "Extreme";
+  if (uvi < 3) {
+    uvIndex.innerHTML = "Low";
+  } else if (uvi < 6) {
+    uvIndex.innerHTML = "Moderate";
+  } else if (uvi < 8) {
+    uvIndex.innerHTML = "High";
+  } else if (uvi < 11) {
+    uvIndex.innerHTML = "Very High";
+  } else {
+    uvIndex.innerHTML = "Extreme";
   }
-  uvIndex.innerHTML = answer;
-} //updates the current uv index --CURRENTLY NO UV DATA BEING RECIEVED --!!
+} //updates the current uv index
 
 function convertTemp() {
   let degreeButton = document.querySelector("#degree-button");
