@@ -1,3 +1,8 @@
+const apiKey = "139a278dab2d6efb890bf5a9eddefa09";
+const apiEndpoint = `https://api.openweathermap.org/data/2.5/`;
+const currentWeatherAPI = `weather?`;
+const oneCallApi = `onecall?`;
+
 // Weather buttons
 let citySearch = document.querySelector("#search-form");
 citySearch.addEventListener("submit", handleSearchSubmit); // search bar and button
@@ -12,23 +17,8 @@ let weatherData = null;
 let fullWeatherData = null;
 
 //functions to run when page re/loads
-searchCity("London");
+searchCity("London"); // 51.5085 -0.1257
 // all functions
-
-function findLocation(event) {
-  event.preventDefault();
-  navigator.geolocation.getCurrentPosition(showPosition);
-} // find position of user with locator button
-
-function showPosition(position) {
-  const apiKey = "139a278dab2d6efb890bf5a9eddefa09";
-  const apiEndpoint = `https://api.openweathermap.org/data/2.5/weather?`;
-  let unit = `metric`;
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  let apiUrl = `${apiEndpoint}lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
-  axios.get(apiUrl).then(updateLocationInfo);
-} // sends user location to Weather API
 
 function handleSearchSubmit(event) {
   event.preventDefault();
@@ -38,39 +28,52 @@ function handleSearchSubmit(event) {
 } // handles the behaviour of the search bar
 
 function searchCity(city) {
-  let apiKey = "139a278dab2d6efb890bf5a9eddefa09";
-  let apiEndpoint = `https://api.openweathermap.org/data/2.5/weather?`;
   let unit = `metric`;
-  let apiUrl = `${apiEndpoint}q=${city}&units=${unit}&appid=${apiKey}`;
-  axios.get(`${apiUrl}`).then(updateLocationInfo);
+  let apiUrl = `${apiEndpoint}${currentWeatherAPI}q=${city}&units=${unit}&appid=${apiKey}`;
+  axios.get(apiUrl).then((res) => {
+    let { lat, lon } = res.data.coord;
+    showPosition(lat, lon);
+  });
 } // sends the city the user searches for to Weather API
 
-function updateLocationInfo(response) {
-  weatherData = response.data;
-  updateTime(response.data.dt);
-  updateDate(response.data.dt);
-  updateTemp(response.data.main.temp);
-  updateWeatherDescription(response.data.weather[0].description);
-  updateCity(response.data.name);
-  updateCountry(response.data.sys.country);
-  updateFeelsTemp(response.data.main.feels_like);
-  updateHighTemp(response.data.main.temp_max);
-  updateLowTemp(response.data.main.temp_min);
+function findLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition((position) => {
+    let { latitude, longitude } = position.coords;
+    showPosition(latitude, longitude);
+  });
+} // find latitute and longiture of the user with locator button
+
+function showPosition(lat, lon) {
+  let unit = `metric`;
+  // let apiUrl = `${apiEndpoint}${currentWeatherAPI}lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
+  let apiUrl = `${apiEndpoint}${oneCallApi}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${unit}`;
+  axios.get(apiUrl).then((res) => {
+    let { data } = res;
+    console.log(data);
+    updateLocationInfo(data);
+  });
+} // sends user location to the OneCall API
+
+function updateLocationInfo(data) {
+  weatherData = data;
+  updateTime(data.current.dt);
+  updateDate(data.current.dt);
+  updateTemp(data.current.temp);
+  updateWeatherDescription(data.current.weather[0].description);
+  //updateCity(data.name);
+  //updateCountry(data.sys.country);
+  updateFeelsTemp(data.current.feels_like);
+  updateHighTemp(data.daily[0].temp.max);
+  updateLowTemp(data.daily[0].temp.min);
   //updateChanceOfRain(); -- work in progress
-  updateWindSpeed(response.data.wind.speed);
-  updateHumidity(response.data.main.humidity);
-  updateIcon(response.data.weather[0].id);
-  runForecast(response.data.coord.lat, response.data.coord.lon);
-  //updateUVIndex(); --CURRENTLY NO UV DATA BEING RECIEVED --!!
+  updateWindSpeed(data.current.wind_speed);
+  updateHumidity(data.current.humidity);
+  updateIcon(data.current.weather[0].id);
+  displayForecast(data.daily);
+  updateUVIndex(data.current.uvi);
 } // all functions to run and update the page
 
-function runForecast(lat, lon) {
-  let apiKey = "139a278dab2d6efb890bf5a9eddefa09";
-  let apiEndpoint = `https://api.openweathermap.org/data/2.5/onecall?`;
-  let units = `metric`;
-  let apiUrl = `${apiEndpoint}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`;
-  axios.get(apiUrl).then(displayForecast);
-}
 function formatDay(unixTime) {
   let date = new Date(unixTime * 1000);
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -78,18 +81,16 @@ function formatDay(unixTime) {
   return days[day].toUpperCase();
 }
 
-function displayForecast(response) {
-  fullWeatherData = response.data.daily;
+function displayForecast(data) {
+  let dailyData = data;
   let forecastElement = document.querySelector("#forecast");
 
   let forecastHTML = `<div class="row">`;
-  fullWeatherData.forEach(function (fullWeatherData, index) {
+  dailyData.forEach(function (dailyData, index) {
     if (index > 0 && index < 7) {
       forecastHTML += `<div class="col-6 col-sm-2 day1" id="day1">
             <ul>
-              <li class="day1-day" id="day1-day">${formatDay(
-                fullWeatherData.dt
-              )}</li>
+              <li class="day1-day" id="day1-day">${formatDay(dailyData.dt)}</li>
               <li class="day1-weather" id="day1-weather">
                 <img
                   src="src/svg/wi-day-cloudy-high.svg"
@@ -101,10 +102,10 @@ function displayForecast(response) {
               </li>
               <li class="day1-temp" id="day1-temp">
                 <span class="day1-low-temp" id="day1-low-temp">${Math.round(
-                  fullWeatherData.temp.min
+                  dailyData.temp.min
                 )}</span>°
                 <span class="day1-high-temp" id="day1-high-temp">${Math.round(
-                  fullWeatherData.temp.max
+                  dailyData.temp.max
                 )}</span>°
               </li>
             </ul>
@@ -114,7 +115,7 @@ function displayForecast(response) {
   forecastHTML += `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
-displayForecast();
+//displayForecast();
 
 function updateTemp(temp) {
   let currentTemp = document.querySelector("#today-number-temp");
@@ -305,9 +306,9 @@ function updateDate(unixDate) {
 function updateIcon(imgID) {
   let imgName;
   let currentIcon = document.querySelector("#today-weather-img");
-  let now = new Date(weatherData.dt * 1000);
-  let sunrise = new Date(weatherData.sys.sunrise * 1000);
-  let sunset = new Date(weatherData.sys.sunset * 1000);
+  let now = new Date(weatherData.current.dt * 1000);
+  let sunrise = new Date(weatherData.current.sunrise * 1000);
+  let sunset = new Date(weatherData.current.sunset * 1000);
   if (now >= sunrise && now <= sunset) {
     switch (imgID) {
       case 200:
