@@ -9,6 +9,7 @@ let degreeButton = document.querySelector("#degree-button");
 degreeButton.addEventListener("click", convertTemp); //change between C and F
 
 let weatherData = null;
+let fullWeatherData = null;
 
 //functions to run when page re/loads
 searchCity("London");
@@ -70,16 +71,25 @@ function runForecast(lat, lon) {
   let apiUrl = `${apiEndpoint}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(displayForecast);
 }
+function formatDay(unixTime) {
+  let date = new Date(unixTime * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let day = date.getDay();
+  return days[day].toUpperCase();
+}
 
 function displayForecast(response) {
-  console.log(response.data.daily);
+  fullWeatherData = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
+
   let forecastHTML = `<div class="row">`;
-  let days = ["THU", "FRI", "SAT", "SUN", "MON", "TUE"];
-  days.forEach(function (day) {
-    forecastHTML += `<div class="col-6 col-sm-2 day1" id="day1">
+  fullWeatherData.forEach(function (fullWeatherData, index) {
+    if (index > 0 && index < 7) {
+      forecastHTML += `<div class="col-6 col-sm-2 day1" id="day1">
             <ul>
-              <li class="day1-day" id="day1-day">${day}</li>
+              <li class="day1-day" id="day1-day">${formatDay(
+                fullWeatherData.dt
+              )}</li>
               <li class="day1-weather" id="day1-weather">
                 <img
                   src="src/svg/wi-day-cloudy-high.svg"
@@ -90,11 +100,16 @@ function displayForecast(response) {
                 />
               </li>
               <li class="day1-temp" id="day1-temp">
-                <span class="day1-low-temp" id="day1-low-temp">12</span>°
-                <span class="day1-high-temp" id="day1-high-temp">16</span>°
+                <span class="day1-low-temp" id="day1-low-temp">${Math.round(
+                  fullWeatherData.temp.min
+                )}</span>°
+                <span class="day1-high-temp" id="day1-high-temp">${Math.round(
+                  fullWeatherData.temp.max
+                )}</span>°
               </li>
             </ul>
           </div>`;
+    }
   });
   forecastHTML += `</div>`;
   forecastElement.innerHTML = forecastHTML;
