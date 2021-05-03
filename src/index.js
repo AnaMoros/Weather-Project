@@ -288,8 +288,12 @@ function updateDate(unixDate) {
 } //updates to the current date
 
 function updateIcon(imgID) {
-  let imgName;
   let currentIcon = document.querySelector("#today-weather-img");
+  currentIcon.setAttribute("src", `src/svg/wi-${findIcon(imgID)}.svg`);
+}
+
+function findIcon(imgID) {
+  let imgName;
   let now = new Date(weatherData.current.dt * 1000);
   let sunrise = new Date(weatherData.current.sunrise * 1000);
   let sunset = new Date(weatherData.current.sunset * 1000);
@@ -397,7 +401,7 @@ function updateIcon(imgID) {
       case 957:
         imgName = "strong-wind";
     }
-    currentIcon.setAttribute("src", `src/svg/wi-${imgName}.svg`);
+    return imgName;
   } else {
     switch (imgID) {
       case 200:
@@ -503,5 +507,5 @@ function updateIcon(imgID) {
         imgName = "strong-wind";
     }
   }
-  currentIcon.setAttribute("src", `src/svg/wi-${imgName}.svg`);
+  return imgName;
 }
