@@ -59,10 +59,20 @@ function updateLocationInfo(response) {
   updateWindSpeed(response.data.wind.speed);
   updateHumidity(response.data.main.humidity);
   updateIcon(response.data.weather[0].id);
+  runForecast(response.data.coord.lat, response.data.coord.lon);
   //updateUVIndex(); --CURRENTLY NO UV DATA BEING RECIEVED --!!
 } // all functions to run and update the page
 
-function displayForecast() {
+function runForecast(lat, lon) {
+  let apiKey = "139a278dab2d6efb890bf5a9eddefa09";
+  let apiEndpoint = `https://api.openweathermap.org/data/2.5/onecall?`;
+  let units = `metric`;
+  let apiUrl = `${apiEndpoint}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response.data.daily);
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
   let days = ["THU", "FRI", "SAT", "SUN", "MON", "TUE"];
