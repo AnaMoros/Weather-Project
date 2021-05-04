@@ -5,6 +5,7 @@ The Weather Project is a website to display the current weather, weather informa
 * Convert temperature between Celsius and Fahrenheit.
 * Save user's location or default city.
 * Ability to expand today's forecast and see the hourly forcast.
+* Change city search to Google Geocoding API.
 
 ## Project Status
 The Weather Project was completed as part of the SheCodesPLus Workshop (May 2021). Any changes from now on are out of the scope of the workhop are being done to learn and showcase my HTML / CSS / JavaScript skills.
