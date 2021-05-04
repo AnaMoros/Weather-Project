@@ -105,7 +105,7 @@ function displayForecast(data) {
                 <span class="forecast-low-temp">${Math.round(
                   dailyData.temp.min
                 )}</span>°
-                <span class="day1-high-temp">${Math.round(
+                <span class="forecast-high-temp">${Math.round(
                   dailyData.temp.max
                 )}</span>°
               </li>
