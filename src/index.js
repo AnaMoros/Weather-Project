@@ -84,7 +84,7 @@ function formatDay(unixTime) {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let day = date.getDay();
   return days[day].toUpperCase();
-}
+} // formats the correct day of the week
 
 function displayForecast(data) {
   let dailyData = data;
@@ -118,7 +118,7 @@ function displayForecast(data) {
   });
   forecastHTML += `</div>`;
   forecastElement.innerHTML = forecastHTML;
-}
+} // displays and updates the 6 day weather forecast
 
 function updateTemp(temp, feels, max, min) {
   let currentTemp = document.querySelector("#today-number-temp");
@@ -155,7 +155,7 @@ function updateCountry(countryCode) {
 function updateChanceOfRain(chance) {
   let rain = document.querySelector("#precipitation-percent");
   rain.innerHTML = `${chance * 100}%`;
-}
+} // convers API data to a percentage - updates the probability it will rain
 
 function updateWindSpeed(windSpeedData) {
   let windSpeed = document.querySelector("#wind-speed");
@@ -267,8 +267,7 @@ function updateTime(unixDate) {
 
 function updateDate(unixDate) {
   let currentDate = new Date(unixDate);
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  let day = days[currentDate.getDay()].toUpperCase();
+  let day = formatDay(unixDate);
   let months = [
     "Jan",
     "Feb",
@@ -292,7 +291,7 @@ function updateDate(unixDate) {
 function updateIcon(imgID) {
   let currentIcon = document.querySelector("#today-weather-img");
   currentIcon.setAttribute("src", `src/svg/wi-${findIcon(imgID)}.svg`);
-}
+} // updates the main weather image
 
 function findIcon(imgID) {
   let imgName;
@@ -510,4 +509,4 @@ function findIcon(imgID) {
     }
   }
   return imgName;
-}
+} // finds the correct weather image depending on the time of day and the data from the API
