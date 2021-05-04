@@ -14,7 +14,6 @@ let degreeButton = document.querySelector("#degree-button");
 degreeButton.addEventListener("click", convertTemp); //change between C and F
 
 let weatherData = null;
-let fullWeatherData = null;
 
 //functions to run when page re/loads
 searchCity("London"); // 51.5085 -0.1257
@@ -31,8 +30,12 @@ function searchCity(city) {
   let unit = `metric`;
   let apiUrl = `${apiEndpoint}${currentWeatherAPI}q=${city}&units=${unit}&appid=${apiKey}`;
   axios.get(apiUrl).then((res) => {
+    let { name } = res.data;
+    let { country } = res.data.sys;
     let { lat, lon } = res.data.coord;
     showPosition(lat, lon);
+    updateCity(name);
+    updateCountry(country);
   });
 } // sends the city the user searches for to Weather API
 
@@ -46,11 +49,17 @@ function findLocation(event) {
 
 function showPosition(lat, lon) {
   let unit = `metric`;
-  // let apiUrl = `${apiEndpoint}${currentWeatherAPI}lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
-  let apiUrl = `${apiEndpoint}${oneCallApi}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${unit}`;
+
+  let apiUrl = `${apiEndpoint}${currentWeatherAPI}lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
   axios.get(apiUrl).then((res) => {
+    let { name } = res.data;
+    let { country } = res.data.sys;
+    updateCity(name);
+    updateCountry(country);
+  });
+  let apiUrlOneCall = `${apiEndpoint}${oneCallApi}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${unit}`;
+  axios.get(apiUrlOneCall).then((res) => {
     let { data } = res;
-    console.log(data);
     updateLocationInfo(data);
   });
 } // sends user location to the OneCall API
@@ -66,8 +75,6 @@ function updateLocationInfo(data) {
     data.daily[0].temp.min
   );
   updateWeatherDescription(data.current.weather[0].description);
-  //updateCity(data.name);
-  //updateCountry(data.sys.country);
   updateChanceOfRain(data.daily[0].pop);
   updateWindSpeed(data.current.wind_speed);
   updateHumidity(data.current.humidity);
