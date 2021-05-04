@@ -196,7 +196,7 @@ function updateTime(unixDate) {
 } // updates to the current time
 
 function updateDate(unixDate) {
-  let currentDate = new Date(unixDate);
+  let currentDate = new Date(unixDate * 1000);
   let day = formatDay(unixDate);
   let months = [
     "Jan",
