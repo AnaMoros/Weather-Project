@@ -3,8 +3,7 @@ body {
   max-width: 134vmin;
   margin: 0 auto;
 }
-header,
-section {
+header {
   margin-top: 4%;
 }
 section {
@@ -72,6 +71,14 @@ footer {
 .location-button:hover {
   color: #fff;
   background-color: #2b87a659;
+}
+.card-top,
+.forecast {
+  margin-top: 1rem;
+}
+.card,
+.forecast {
+  border-radius: 2rem;
 }
 .time-and-date {
   font-size: 1.3rem;
