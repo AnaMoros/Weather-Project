@@ -16,7 +16,7 @@ degreeButton.addEventListener("click", convertTemp); //change between C and F
 let weatherData = null;
 
 //functions to run when page re/loads
-searchCity("London"); // 51.5085 -0.1257
+showPosition(51.5085, -0.1257); // Coords for London - default city
 // all functions
 
 function handleSearchSubmit(event) {
@@ -30,12 +30,8 @@ function searchCity(city) {
   let unit = `metric`;
   let apiUrl = `${apiEndpoint}${currentWeatherAPI}q=${city}&units=${unit}&appid=${apiKey}`;
   axios.get(apiUrl).then((res) => {
-    let { name } = res.data;
-    let { country } = res.data.sys;
     let { lat, lon } = res.data.coord;
     showPosition(lat, lon);
-    updateCity(name);
-    updateCountry(country);
   });
 } // sends the city the user searches for to Weather API
 
