@@ -69,6 +69,10 @@ footer {
   margin-left: 1%;
   padding: 9px 14px;
 }
+.location-button:hover {
+  color: #fff;
+  background-color: #2b87a659;
+}
 .time-and-date {
   font-size: 1.3rem;
   line-height: 2rem;
@@ -94,25 +98,8 @@ footer {
 .today-temp {
   display: inline;
   line-height: 5rem;
-}
-.today-number-temp,
-.degree {
   font-size: 5rem;
-  padding-left: 0;
-  padding-right: 0;
 }
-.degree-button {
-  border-radius: 50%;
-  background-color: #2b87a610;
-  font-size: 1.2rem;
-  vertical-align: top;
-  width: auto;
-}
-.degree-button:hover {
-  color: #fff;
-  background-color: #2b87a659;
-}
-
 .today-info {
   height: 100%;
   text-align: left;
