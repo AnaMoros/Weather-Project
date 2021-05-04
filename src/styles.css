@@ -1,6 +1,6 @@
 body {
   background: #2b87a659;
-  font-family: "Oswald", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   max-width: 134vmin;
   margin: 0 auto;
 }
@@ -32,8 +32,7 @@ ul li::before {
   content: "\200B";
 }
 footer {
-  margin-top: 6%;
-  margin-bottom: 2%;
+  margin: 4% 3%;
   text-align: right;
 }
 .search-bar,
