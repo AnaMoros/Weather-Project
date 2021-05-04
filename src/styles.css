@@ -46,6 +46,7 @@ footer {
 
 .search-bar {
   border-radius: 25px;
+  box-shadow: 3px 3px 10px 2px rgba(6, 64, 77, 0.7);
   margin: 0 auto;
   width: 96%;
   display: block;
@@ -63,6 +64,7 @@ footer {
 }
 .location-button {
   border-radius: 50%;
+  box-shadow: 3px 3px 10px 2px rgba(6, 64, 77, 0.7);
   border: 1px;
   padding: 9px;
   margin-left: 1%;
@@ -78,7 +80,8 @@ footer {
 }
 .card,
 .forecast {
-  border-radius: 2rem;
+  border-radius: 1rem;
+  box-shadow: 6px 6px 10px 4px rgba(6, 64, 77, 0.7);
 }
 .time-and-date {
   font-size: 1.3rem;
